@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B5941FE1B4A5030009BC43F /* PixelRenderThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3B5941FC1B4A5030009BC43F /* PixelRenderThread.cpp */; };
 		9932E22C1B3ABBC400A00402 /* BRDF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9932E1D21B3ABBC400A00402 /* BRDF.cpp */; };
 		9932E22D1B3ABBC400A00402 /* Lambertian.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9932E1D41B3ABBC400A00402 /* Lambertian.cpp */; };
 		9932E22E1B3ABBC400A00402 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9932E1D71B3ABBC400A00402 /* Camera.cpp */; };
@@ -80,6 +81,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3B5941FC1B4A5030009BC43F /* PixelRenderThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PixelRenderThread.cpp; sourceTree = "<group>"; };
+		3B5941FD1B4A5030009BC43F /* PixelRenderThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PixelRenderThread.h; sourceTree = "<group>"; };
 		9932E1D21B3ABBC400A00402 /* BRDF.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BRDF.cpp; sourceTree = "<group>"; };
 		9932E1D31B3ABBC400A00402 /* BRDF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BRDF.h; sourceTree = "<group>"; };
 		9932E1D41B3ABBC400A00402 /* Lambertian.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Lambertian.cpp; sourceTree = "<group>"; };
@@ -353,6 +356,8 @@
 		9932E2291B3ABBC400A00402 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				3B5941FC1B4A5030009BC43F /* PixelRenderThread.cpp */,
+				3B5941FD1B4A5030009BC43F /* PixelRenderThread.h */,
 				9932E22A1B3ABBC400A00402 /* ofxRayTracer.cpp */,
 				9932E22B1B3ABBC400A00402 /* ofxRayTracer.h */,
 			);
@@ -526,6 +531,7 @@
 				9932E24F1B3ABBC400A00402 /* ViewPlane.cpp in Sources */,
 				9932E2441B3ABBC400A00402 /* Whitted.cpp in Sources */,
 				9932E2391B3ABBC400A00402 /* Jittered.cpp in Sources */,
+				3B5941FE1B4A5030009BC43F /* PixelRenderThread.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				9932E2351B3ABBC400A00402 /* Light.cpp in Sources */,
 				9932E2341B3ABBC400A00402 /* Directional.cpp in Sources */,

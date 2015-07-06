@@ -26,6 +26,7 @@ struct RenderedPixel {
   RGBColour color;
 };
 
+// Unused
 struct RenderedInt {
   int x, y, r, g, b;
 };
@@ -40,12 +41,10 @@ public:
    unsigned int x, y;
 };
 
-
 enum RenderDisplay {
     EVERY_PIXEL,
     EVERY_ROW,
     EVERY_JOB
 };
-
 
 #endif

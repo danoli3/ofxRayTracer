@@ -11,6 +11,7 @@
 #include <numeric>
 #include <iterator>
 
+#include "PixelRenderThread.h"
 #include "World.h"
 #include <vector>
 
@@ -37,10 +38,12 @@ private:
 	shared_ptr<ofTexture> toRender;
     shared_ptr<ofTexture> rendered;
     
+    PixelRenderThread renderer;
+    
     ofPixels trackPixels;
     ofPixels renderedPixels;
     
-    World* world;
+    shared_ptr<World> world;
     int h;
     int w;
     int howManyRendered;

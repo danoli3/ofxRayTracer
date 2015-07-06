@@ -4,8 +4,10 @@
 void ofxRayTracer::setup(){
 	ofBackground(0, 0, 0);
     
-	world = new World();
+	world = shared_ptr<World>(new World());
 	world->build();
+    
+    renderer.setWorld(world);
 	
 	int hres = world->vp.hres;
 	int vres = world->vp.vres;
@@ -58,49 +60,72 @@ void ofxRayTracer::setup(){
 }
 
 void ofxRayTracer::exit() {
-	if(world)
-	{
-		delete world;
-		world = NULL;
-	}
 }
 
 //--------------------------------------------------------------
 void ofxRayTracer::update(){
     
     
-    if(howManyRendered < totalPixels ) {
+    if(howManyRendered < totalPixels) {
         
-        const int numberToRender = 512;
-        int currentRender = 0;
-        vector<Pixel> current;
-        current.reserve(numberToRender);
-        bool endLoop = false;
-        for (int y = 0; y < h && endLoop == false; y++){
-            for (int x = 0; x < w && endLoop == false; x++){
+//        // Decide which pixels to render
+//        const int numberToRender = 512;
+//        int currentRender = 0;
+//        vector<Pixel> current;
+//        current.reserve(numberToRender);
+//        bool endLoop = false;
+//        for (int y = 0; y < h && endLoop == false; y++){
+//            for (int x = 0; x < w && endLoop == false; x++){
+//                if(trackPixels.getColor(x, y) == ofColor::black) {
+//                    currentRender++;
+//                    current.push_back(Pixel(x,y));
+//                }
+//                if(currentRender >= numberToRender) {
+//                    endLoop = true;
+//                }
+//            }
+//        }
+//
+//        // Render the pixels
+//        int iterations = current.size();
+//        for(int i = 0; i < iterations; i++){
+//            RenderedPixel render;
+////          if(world->camera_ptr != NULL) {
+////              world->camera_ptr->render_scene(*world, current[i], render);
+////          } else {
+//                world->render_scene(current[i], render);
+////          }
+//            
+//            renderedPixels.setColor(current[i].x, current[i].y, convertColor(render.color.r, render.color.g, render.color.b));
+//            trackPixels.setColor(current[i].x, current[i].y, ofColor::white);
+//            howManyRendered++;
+//        }
+        
+        // Update thread status
+        renderer.update();
+        
+        // Get the rendered pixels from thread
+        if (renderer.isPixelRendered()) {
+            vector<RenderedPixel> renders = renderer.getRenderedPixels();
+            renderer.clearRenderedPixels();
+            for (int i = 0; i < renders.size(); i++) {
+                renderedPixels.setColor(renders[i].xy.x, renders[i].xy.y, convertColor(renders[i].color.r, renders[i].color.g, renders[i].color.b));
+                trackPixels.setColor(renders[i].xy.x, renders[i].xy.y, ofColor::white);
+                howManyRendered++;
+            }
+        }
+        
+        // Tell thread which pixels to render next
+        for (int y = 0; y < h && renderer.canRenderPixels() > 0; y++){
+            for (int x = 0; x < w && renderer.canRenderPixels() > 0; x++){
                 if(trackPixels.getColor(x, y) == ofColor::black) {
-                    currentRender++;
-                    current.push_back(Pixel(x,y));
-                }
-                if(currentRender >= numberToRender) {
-                    endLoop = true;
+                    renderer.render(Pixel(x,y));
+                    trackPixels.setColor(x, y, ofColor::gray);
                 }
             }
         }
         
-        int iterations = current.size();
-        for(int i = 0; i < iterations; i++){
-            RenderedPixel render;
-//          if(world->camera_ptr != NULL) {
-//              world->camera_ptr->render_scene(*world, current[i], render);
-//          } else {
-                world->render_scene(current[i], render);
-//          }
-            
-            renderedPixels.setColor(current[i].x, current[i].y, convertColor(render.color.r, render.color.g, render.color.b));
-            trackPixels.setColor(current[i].x, current[i].y, ofColor::white);
-            howManyRendered++;
-        }
+        // Save data to textures
         toRender->loadData(trackPixels);
         rendered->loadData(renderedPixels);
     }
@@ -118,7 +143,7 @@ void ofxRayTracer::draw(){
     ofSetColor(255,255,255,255);
     
     toRender->draw(0,0);
-//    ofSetColor(255, 255, 255, 128);
+    //ofSetColor(255, 255, 255, 128);
     rendered->draw(0,0);
     
     
